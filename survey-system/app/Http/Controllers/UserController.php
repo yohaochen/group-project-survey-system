@@ -23,10 +23,10 @@ class UserController extends Controller
 
     public function register_post(Request $request)
     {
-        //用户添加处理
+        //new user
         $tab = new Users;
 
-        //判断邮箱是否存在了，
+        //validate email
         $user_data = $tab->where('Email',$request->input('Email',''))->first();
         if (!empty($user_data)){
             echo '<script>alert("Email already exists");location="'.$_SERVER['HTTP_REFERER'].'"</script>';exit;
@@ -39,7 +39,7 @@ class UserController extends Controller
         $tab->Address = $request->input('Address','');
         $tab->Password = Hash::make($request->input('Password',''));
 
-        
+        //dd($request->all())
         if($tab->save()){
             $request->flashExcept('_token','Password');
             echo '<script>alert("Added successfully");location="'.$_SERVER['HTTP_REFERER'].'"</script>';
